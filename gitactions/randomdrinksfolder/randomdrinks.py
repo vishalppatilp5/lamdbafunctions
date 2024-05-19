@@ -1,5 +1,6 @@
 import json
 # import random
+import os 
 
 # def random_drink():
 #     drinks = ['coffee','tea','beer', 'wine', 'milk', 'chai latte']
@@ -8,9 +9,10 @@ import json
 def handler(event, contect):
     # drink = random_drink()
     # message = f"you should drinksome {drink}"
+    version = os.environ.get("VERSION", "0.0")
     response_body = {
-        "message" : "Hello World",
-        "Version" : "1.0.0"
+        "message" : "Hello World this is new version",
+        "Version" : version
     }
 
     return {
