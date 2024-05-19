@@ -4,6 +4,7 @@ from aws_cdk import (
     CfnOutput,
     Stack,
     aws_lambda as _lambda,
+    aws_dynamodb as dynamodb
 
 )
 import os.path
@@ -28,6 +29,11 @@ class GitactionsStack(Stack):
 
         version = os.getenv('VERSION', '0.0')
 
+        table = dynamodb.TableV2(self, "VisitorTimeTable",
+        partition_key=dynamodb.Attribute(name="key", type=dynamodb.AttributeType.STRING),
+        billing=dynamodb.Billing.on_demand()
+)
+
 
         random_drink_function = _lambda.Function(
             self,
@@ -36,9 +42,12 @@ class GitactionsStack(Stack):
             handler = "randomdrinks.handler",
             runtime= _lambda.Runtime.PYTHON_3_8,
             environment={
-                'VERSION': version
+                'VERSION': version,
+                'TABLE_NAME': table.table_name,
             }
         )
+
+        table.grant_read_write_data(random_drink_function)
 
         randondrinksUrl = random_drink_function.add_function_url(
             auth_type=_lambda.FunctionUrlAuthType.NONE,
