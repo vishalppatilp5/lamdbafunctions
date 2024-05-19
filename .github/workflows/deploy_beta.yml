@@ -21,11 +21,11 @@ jobs:
 
 
       - name: install npm
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-      - run: 'sudo apt update -y && sudo apt install nodejs npm -y'
+        # uses: actions/setup-node@v4
+        # with:
+        #   node-version: 20
+        #   cache: 'npm'
+        run: 'sudo apt update -y && sudo apt install nodejs npm -y'
 
       - name: Install AWS CDK
         run: 'sudo npm install -g aws-cdk' 
