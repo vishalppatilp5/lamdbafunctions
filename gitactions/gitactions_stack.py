@@ -32,10 +32,8 @@ class GitactionsStack(Stack):
             id = "RandomDrinkFunctionV1",
             code= _lambda.Code.from_asset(os.path.join(dirname, 'randomdrinksfolder')),
             handler = "randomdrinks.handler",
-            runtime= _lambda.Runtime.PYTHON_3_8
-            environment = {
-            VERSION process.env.VERSION || 0.0
-        }
+            runtime= _lambda.Runtime.PYTHON_3_8,
+            environment = ( dotenv.VERSION process.env.VERSION || 0.0 )
         )
 
         randondrinksUrl = random_drink_function.add_function_url(
