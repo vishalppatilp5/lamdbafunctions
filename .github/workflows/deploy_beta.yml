@@ -21,13 +21,21 @@ jobs:
 
 
       - name: install npm
-        run: 'sudo apt update -y && sudo apt install nodejs npm -y'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: 'sudo apt update -y && sudo apt install nodejs npm -y'
 
       - name: Install AWS CDK
         run: 'sudo npm install -g aws-cdk' 
 
-      - name: Install Requirements 
-        run: 'pip3 install -r requirements.txt'
+      - name: Install Requirements
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      - run: 'pip3 install -r requirements.txt'
         working-directory: .
 
       - name: CDK Synth
