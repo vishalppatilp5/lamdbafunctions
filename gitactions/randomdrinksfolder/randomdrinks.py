@@ -1,42 +1,32 @@
-import json
-# import random
-import os 
+import os
 import boto3
 
-# def random_drink():
-#     drinks = ['coffee','tea','beer', 'wine', 'milk', 'chai latte']
-#     return random.choice(drinks)
 
-def handler(event, contect):
-    # drink = random_drink()
-    # message = f"you should drinksome {drink}"
-    
+def handler(event, context):
+    # Raw event data.
     path = event["rawPath"]
     if path != "/":
-        return {"statusCode": 400 , "body": "Not Found"}
+        return {"statusCode": 404, "body": "Not found."}
 
-    dynamodb = boto3.resoruce('dynamodb')
-    table = dynamodb.Table(os.envron.get("TABLE_NAME"))
-    
+    # Get a reference to the DDB table.
+    dynamodb = boto3.resource("dynamodb")
+    table = dynamodb.Table(os.environ.get("TABLE_NAME"))
 
-    response = table.get_item(key={"key": "visit_count"})
+    # Read the "VISIT COUNT" key (or create it if it doesn't exist)
+    response = table.get_item(Key={"key": "visit_count"})
     if "Item" in response:
-        visit_count = response ["Item" ] ["value"]
+        visit_count = response["Item"]["value"]
     else:
         visit_count = 0
 
+    # Increment the visit count and write it back to the table.
     new_visit_count = visit_count + 1
-    table.put_item(Item={"key": "visit_count", "value" : new_visit_count})
+    table.put_item(Item={"key": "visit_count", "value": new_visit_count})
 
     version = os.environ.get("VERSION", "0.0")
     response_body = {
-        "message" : "Hello World this is new version",
-        "Version" : version,
-        "visit_count" : new_visit_count,
+        "message": "Hello World 👋",
+        "version": version,
+        "visit_count": new_visit_count,
     }
-
-    return {
-        'statusCode' : 200,
-        'body' : response_body
-
-    }
+    return {"statusCode": 200, "body": response_body}
