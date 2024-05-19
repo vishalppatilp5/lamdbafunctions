@@ -1,14 +1,10 @@
-from aws_cdk import (
-    # Duration,
-    Stack,
-    # aws_sqs as sqs,
-)
+
 from constructs import Construct
 from aws_cdk import (
     CfnOutput,
     Stack,
     aws_lambda as _lambda,
-    aws_lambda_url as _lambda_url,
+    # aws_lambda_url as _lambda_url,
     core
 )
 import os.path
