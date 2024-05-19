@@ -1,0 +1,31 @@
+name: Deploy on Aws (CDK)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20
+      
+      - name: Install CDK dependencies
+        working-directory: ./
+        run: npm ci 
+
+      - name: Deploy CDK 
+        working-directory: ./
+        run: npm cdk deploy --require-approval never
+        env:
+          AWS_ACCESS_KEY_ID: ${{secrets.aws_access_key_id}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.aws_secret_access_key}}
+          AWS_REGION: "us-east-1"
