@@ -4,10 +4,11 @@ from aws_cdk import (
     CfnOutput,
     Stack,
     aws_lambda as _lambda,
-    # aws_lambda_url as _lambda_url,
-    core
+
 )
 import os.path
+import aws_cdk as core
+
 from dotenv import  load_dotenv
 load_dotenv()
 
