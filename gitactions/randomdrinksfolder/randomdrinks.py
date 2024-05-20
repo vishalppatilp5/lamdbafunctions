@@ -3,10 +3,6 @@ import boto3
 
 
 def handler(event, context):
-    # Raw event data.
-    # path = event["rawPath"]
-    # if path != "/":
-    #     return {"statusCode": 404, "body": "Not found."}
 
     # Get a reference to the DDB table.
     dynamodb = boto3.resource("dynamodb")
